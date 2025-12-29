@@ -1,0 +1,53 @@
+name: arista-spine-leaf
+
+topology:
+  kinds:
+    arista_ceos:
+      type: ceos
+      image: ceos:4.31.0F  # Use latest cEOS-lab image available
+
+  nodes:
+    spine1:
+      kind: arista_ceos
+      mgmt_ipv4: 172.20.20.11/24
+
+    spine2:
+      kind: arista_ceos
+      mgmt_ipv4: 172.20.20.12/24
+
+    leaf1:
+      kind: arista_ceos
+      mgmt_ipv4: 172.20.20.21/24
+
+    leaf2:
+      kind: arista_ceos
+      mgmt_ipv4: 172.20.20.22/24
+
+    leaf3:
+      kind: arista_ceos
+      mgmt_ipv4: 172.20.20.23/24
+
+    leaf4:
+      kind: arista_ceos
+      mgmt_ipv4: 172.20.20.24/24
+
+    leaf5:
+      kind: arista_ceos
+      mgmt_ipv4: 172.20.20.25/24
+
+  links:
+  # Spine1 to all Leaves (Ethernet1-5 on spine1 → Ethernet1-5 on leaves)
+  - endpoints: ["spine1:eth1", "leaf1:eth1"]
+  - endpoints: ["spine1:eth2", "leaf2:eth1"]
+  - endpoints: ["spine1:eth3", "leaf3:eth1"]
+  - endpoints: ["spine1:eth4", "leaf4:eth1"]
+  - endpoints: ["spine1:eth5", "leaf5:eth1"]
+
+  # Spine2 to all Leaves (Ethernet1-5 on spine2 → Ethernet6-10 on leaves)  
+  - endpoints: ["spine2:eth1", "leaf1:eth6"]
+  - endpoints: ["spine2:eth2", "leaf2:eth6"]
+  - endpoints: ["spine2:eth3", "leaf3:eth6"]
+  - endpoints: ["spine2:eth4", "leaf4:eth6"]
+  - endpoints: ["spine2:eth5", "leaf5:eth6"]
+
+# Deploy with: sudo clab deploy --topology arista-spine-leaf.clab.yml [web:1][web:13][page:1]
